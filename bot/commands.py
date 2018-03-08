@@ -31,7 +31,7 @@ Base.query = db_session.query_property()
 
 def hash(x):
     m = hashlib.sha256()
-    m.update(x)
+    m.update(str(x))
     return m.hexdigest()
   
 
