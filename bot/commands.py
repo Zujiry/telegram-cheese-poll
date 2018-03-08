@@ -121,7 +121,7 @@ class RoBoto():
             )
             db_session.add(poll)
             db_session.commit()
-            bot.send_message(chat_id=update.message.chat_id, text=str("Poll saved!")
+            bot.send_message(chat_id=update.message.chat_id, text=str("Poll saved!"))
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
     
