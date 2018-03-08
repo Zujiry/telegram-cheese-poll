@@ -50,10 +50,11 @@ class RoBoto():
             bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
     
     def done(self, bot, update):
-        bot.send_message(chat_id=update.message.chat_id, text="Creating your poll!")
-        self.set_options = False
-        self.set_start = False
-        self.set_options_text = False
+        if self.set_start and self.set_options and self.set_options_text:
+            bot.send_message(chat_id=update.message.chat_id, text="Creating your poll!")
+            self.set_options = False
+            self.set_start = False
+            self.set_options_text = False
     
     def unknown(self, bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
