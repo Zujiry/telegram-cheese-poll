@@ -30,6 +30,7 @@ class RoBoto():
         ### Variables
         self.set_start = False
         self.set_options = False
+        self.set_options_text = False
         self.options = []
 
     def start(self, bot, update):
@@ -39,16 +40,20 @@ class RoBoto():
     def echo(self, bot, update):
         if self.set_options:
             self.options.append(update.message.text)
+        elif self.set_options_text:
+            pass
         if self.set_start:
             bot.send_message(chat_id=update.message.chat_id, text='All the options please')
+            self.set_options_text = True
             self.set_options = True
         else:
             bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
     
     def done(self, bot, update):
-        bot.send_message(chat_id=update.message.chat_id, text="Okay done")
+        bot.send_message(chat_id=update.message.chat_id, text="Creating your poll!")
         self.set_options = False
         self.set_start = False
+        self.set_options_text = False
     
     def unknown(self, bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
