@@ -77,33 +77,33 @@ class RoBoto():
         self.set_options_text = False
         self.options = []
 
-    def start(self, update):
-        self.sendMessage(chat_id=update.message.chat_id, text="Let's create a new poll. First, send me the question.")
+    def start(self, bot, update):
+        bot.sendMessage(chat_id=update.message.chat_id, text="Let's create a new poll. First, send me the question.")
         self.set_start = True
         
-    def echo(self, update):
+    def echo(self, bot, update):
         if self.set_options:
             self.options.append(update.message.text)
         elif self.set_options_text:
             pass
         elif self.set_start:
-            self.send_message(chat_id=update.message.chat_id, text='All the options please')
+            bot.send_message(chat_id=update.message.chat_id, text='All the options please')
             self.pollname = update.message.text
             self.set_options_text = True
             self.set_options = True
         else:
-            self.send_message(chat_id=update.message.chat_id, text=update.message.text)
+            bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
     
-    def done(self, update):
+    def done(self, bot, update):
         if self.set_start and self.set_options and self.set_options_text:
-            self.send_message(chat_id=update.message.chat_id, text="Creating your poll!")
+            bot.send_message(chat_id=update.message.chat_id, text="Creating your poll!")
             self.set_options = False
             self.set_start = False
             self.set_options_text = False
-            self.send_message(chat_id=update.message.chat_id, text=str(self.options) + ' ' + self.pollname)
+            bot.send_message(chat_id=update.message.chat_id, text=str(self.options) + ' ' + self.pollname)
     
-    def unknown(self, update):
-        self.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
+    def unknown(self, bot, update):
+        bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
 
     def run(self):
         self.updater.start_polling()
