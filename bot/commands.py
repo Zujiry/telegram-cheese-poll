@@ -158,8 +158,8 @@ class RoBoto():
         text = self.pollname + '\n' + '\n'.join(
             [x + str(1) for x in self.options if x is query['callback_query']['data']])
 
-        bot.editMessageText(message_id=query['callback_query']['message']['message_id'],
-                            chat_id=query['callback_query']['message']['chat']['id'],
+        bot.editMessageText(message_id=query['message']['message_id'],
+                            chat_id=query['message']['chat']['id'],
                             text=text)
         # update_message(bot, query.data, query.inline_message_id)
         query.answer()
