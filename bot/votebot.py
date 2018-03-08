@@ -20,7 +20,7 @@ from telegram.ext import CallbackQueryHandler, ChosenInlineResultHandler, Inline
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-TG_TOKEN = os.environ["TG_TOKEN"]
+TG_TOKEN = '325958539:AAF4OdXPaS_TL7JR3fVtDrzh_Kxx34Kx54w'
 
 engine = create_engine(os.environ["DB_URL"], echo=True)
 
