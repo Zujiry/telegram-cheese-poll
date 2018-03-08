@@ -122,7 +122,7 @@ class RoBoto():
             ]
 
             poll = Poll(
-                id=update.message.chat_id,
+                id=hash(30),
                 title=self.pollname,
                 creator_id=update.message.chat_id,
                 options=options
