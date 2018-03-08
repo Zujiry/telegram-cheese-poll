@@ -1,12 +1,53 @@
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
+from telegram import InlineQueryResultArticle, InputTextMessageContent, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import CallbackQueryHandler, ChosenInlineResultHandler, InlineQueryHandler, Updater
+
+from sqlalchemy import Column, String, Integer, BigInteger, ForeignKey, Float
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker, relationship
+
 import logging
-
-
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+
+engine = create_engine(os.environ["DB_URL"], echo=True)
+
+db_session = scoped_session(
+    sessionmaker(autocommit=False, autoflush=False, bind=engine))
+
+Base = declarative_base()
+Base.query = db_session.query_property()
+
+
+class Poll(Base):
+    __tablename__ = 'polls'
+    id = Column(BigInteger, primary_key=True)
+    title = Column(String)
+    creator_id = Column(BigInteger)
+    options = relationship("Option")
+
+
+class Option(Base):
+    __tablename__ = 'options'
+    id = Column(String, primary_key=True)
+    title = Column(String)
+    poll_id = Column(BigInteger, ForeignKey('polls.id'))
+    poll = relationship("Poll", back_populates="options")
+
+
+class Vote(Base):
+    __tablename__ = 'votes'
+    id = Column(Float, primary_key=True)
+    user_id = Column(BigInteger, primary_key=True)
+    option_id = Column(String, primary_key=True)
+
+
+Base.metadata.create_all(bind=engine)
+    
 
 ### Functions
 class RoBoto():
