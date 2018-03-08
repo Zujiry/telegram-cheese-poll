@@ -112,10 +112,15 @@ class RoBoto():
             self.set_start = False
             self.set_options_text = False
             
-            query_id = update.inline_query.id
+            query = update.inline_query.query
             
+            if query:
+                bot.send_message(chat_id=update.message.chat_id, text="Query: " + str(query))
+            else:
+                bot.send_message(chat_id=update.message.chat_id, text="WoW")
+                
             options = [
-                Option(id=query_id + hash(part)[:32], title=self.pollname) for option in self.options
+                Option(id=update.message.chat_id, title=self.pollname) for option in self.options
             ]
         
             poll = Poll(
