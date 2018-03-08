@@ -16,6 +16,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker, relationship
 
 import logging
+
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
@@ -33,7 +34,7 @@ def hash(x):
     m = hashlib.sha256()
     m.update(str(x))
     return m.hexdigest()
-  
+
 
 class Poll(Base):
     __tablename__ = 'polls'
@@ -59,7 +60,7 @@ class Vote(Base):
 
 
 Base.metadata.create_all(bind=engine)
-    
+
 
 ### Functions
 class RoBoto():
@@ -73,13 +74,13 @@ class RoBoto():
         done_handler = CommandHandler('done', self.done)
         unknown_handler = MessageHandler(Filters.command, self.unknown)
         echo_handler = MessageHandler(Filters.text, self.echo)
-      
+
         self.dispatcher.add_handler(start_handler)
         self.dispatcher.add_handler(done_handler)
         self.dispatcher.add_handler(echo_handler)
         # Must be added last
         self.dispatcher.add_handler(unknown_handler)
-        
+
         ### Variables
         self.pollname = ""
         self.set_start = False
@@ -88,34 +89,39 @@ class RoBoto():
         self.options = []
 
     def start(self, bot, update):
-        message = bot.sendMessage(chat_id=update.message.chat_id, text="Let's &lt;b&gt;create&lt;/b&gt; a new poll. First, send me the question.", parse_mode='HTML')
+        message = bot.sendMessage(chat_id=update.message.chat_id,
+                                  text="Let's &lt;b&gt;create&lt;/b&gt; a new poll. First, send me the question.",
+                                  parse_mode='HTML')
         self.set_start = True
         print(message)
-        
+
     def echo(self, bot, update):
         if self.set_options:
             self.options.append(update.message.text)
+            bot.editMessageText(message_id=self.message_id, text='its another option')
         elif self.set_options_text:
             pass
         elif self.set_start:
-            bot.send_message(chat_id=update.message.chat_id, text="All the options please")
+            self.message_id = bot.send_message(chat_id=update.message.chat_id, text="All the options please")[
+                'message_id']
             self.pollname = update.message.text
             self.set_options_text = True
             self.set_options = True
         else:
             bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
-    
+
     def done(self, bot, update):
         if self.set_start and self.set_options and self.set_options_text:
             bot.send_message(chat_id=update.message.chat_id, text="Creating your poll!")
             self.set_options = False
             self.set_start = False
             self.set_options_text = False
-                
+
             options = [
-                Option(id=str(update.message.chat_id) + str(hash(30)[:32]), title=self.pollname) for option in self.options
+                Option(id=str(update.message.chat_id) + str(hash(30)[:32]), title=self.pollname) for option in
+                self.options
             ]
-        
+
             poll = Poll(
                 id=update.message.chat_id,
                 title=self.pollname,
@@ -127,13 +133,13 @@ class RoBoto():
             bot.send_message(chat_id=update.message.chat_id, text=str("Poll saved!"))
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
-    
+
     def unknown(self, bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
 
     def run(self):
         self.updater.start_polling()
-   
+
 
 if __name__ == "__main__":
     bot = RoBoto()
