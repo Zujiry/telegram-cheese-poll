@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shlex
 
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
@@ -71,7 +72,8 @@ class RoBoto():
         done_handler = CommandHandler('done', self.done)
         unknown_handler = MessageHandler(Filters.command, self.unknown)
         echo_handler = MessageHandler(Filters.text, self.echo)
-        
+ 
+        self.dispatcher.add_handler(InlineQueryHandler(inline_handler))        
         self.dispatcher.add_handler(start_handler)
         self.dispatcher.add_handler(done_handler)
         self.dispatcher.add_handler(echo_handler)
@@ -133,6 +135,43 @@ class RoBoto():
 
     def run(self):
         self.updater.start_polling()
+    
+    def inline_handler(bot, update):
+        query = update.inline_query.query
+
+        if query == '':
+            return
+
+        try:
+            parts = shlex.split(query)
+        except ValueError as e:
+            return
+
+        query_id = update.inline_query.id
+
+        if len(parts) == 1:
+            update.inline_query.answer([
+                InlineQueryResultArticle(
+                    id=query_id,
+                    title=parts[0],
+                    input_message_content=InputTextMessageContent(
+                        "*{}*".format(parts[0]), parse_mode="markdown"))
+            ])
+        else:
+            options = deduplicate(parts[1:])
+            description = " / ".join(options)
+
+            buttons = generate_buttons(query_id, options)
+            update.inline_query.answer([
+                InlineQueryResultArticle(
+                    id=query_id,
+                    title=parts[0],
+                    description=description,
+                    input_message_content=InputTextMessageContent(
+                    generate_message(parts[0], options),
+                    parse_mode="markdown"),
+                    reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+            ])
 
 if __name__ == "__main__":
     bot = RoBoto()
