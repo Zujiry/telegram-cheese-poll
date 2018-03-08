@@ -132,9 +132,9 @@ class RoBoto():
             for option in self.options:
                 buttons.append([
                     InlineKeyboardButton(text=option,
-                                         url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl"),
+                                         callback_data=option),
                     InlineKeyboardButton(text='Nein',
-                                         url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
+                                         callback_data=option + " Nein")
                 ])
 
             bot.send_message(chat_id=update.message.chat_id, text=self.pollname,
@@ -150,7 +150,7 @@ class RoBoto():
         self.updater.start_polling()
 
     def stop(self, bot, update):
-        self.updater.stop()
+        self.updater.idle()
 
 
 if __name__ == "__main__":
