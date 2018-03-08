@@ -113,7 +113,7 @@ class RoBoto():
             self.set_options_text = False
                 
             options = [
-                Option(id=update.message.chat_id + hash(part)[:32], title=self.pollname) for option in self.options
+                Option(id=update.message.chat_id + hash(30)[:32], title=self.pollname) for option in self.options
             ]
         
             poll = Poll(
@@ -133,43 +133,7 @@ class RoBoto():
 
     def run(self):
         self.updater.start_polling()
-    
-    def inline_handler(self, bot, update):
-        query = update.inline_query.query
-
-        if query == '':
-            return
-
-        try:
-            parts = shlex.split(query)
-        except ValueError as e:
-            return
-
-        query_id = update.inline_query.id
-
-        if len(parts) == 1:
-            update.inline_query.answer([
-                InlineQueryResultArticle(
-                    id=query_id,
-                    title=parts[0],
-                    input_message_content=InputTextMessageContent(
-                        "*{}*".format(parts[0]), parse_mode="markdown"))
-            ])
-        else:
-            options = deduplicate(parts[1:])
-            description = " / ".join(options)
-
-            buttons = generate_buttons(query_id, options)
-            update.inline_query.answer([
-                InlineQueryResultArticle(
-                    id=query_id,
-                    title=parts[0],
-                    description=description,
-                    input_message_content=InputTextMessageContent(
-                    generate_message(parts[0], options),
-                    parse_mode="markdown"),
-                    reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
-            ])
+   
 
 if __name__ == "__main__":
     bot = RoBoto()
