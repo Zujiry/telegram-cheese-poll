@@ -1,4 +1,4 @@
-# coding=utf-16
+# coding=utf-16-le
 
 import argparse
 import hashlib
