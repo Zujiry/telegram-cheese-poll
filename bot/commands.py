@@ -25,6 +25,12 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 
+def hash(x):
+    m = hashlib.sha256()
+    m.update(bytes(x, encoding="utf-8"))
+    return m.hexdigest()
+  
+
 class Poll(Base):
     __tablename__ = 'polls'
     id = Column(BigInteger, primary_key=True)
@@ -100,14 +106,28 @@ class RoBoto():
             self.set_options = False
             self.set_start = False
             self.set_options_text = False
-            bot.send_message(chat_id=update.message.chat_id, text=str(self.options) + ' ' + self.pollname)
+            
+            options = [
+                Option(id=query_id + hash(part)[:32], title=self.pollname) for option in self.options
+            ]
+        
+            poll = Poll(
+                id=query_id,
+                title=self.pollname,
+                creator_id=update.message.chat_id,
+                options=options
+            )
+            db_session.add(poll)
+            db_session.commit()
+            bot.send_message(chat_id=update.message.chat_id, text=str('Poll saved!)
+        else:
+            bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
     
     def unknown(self, bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
 
     def run(self):
         self.updater.start_polling()
-
 
 if __name__ == "__main__":
     bot = RoBoto()
