@@ -150,7 +150,7 @@ class RoBoto():
         self.updater.start_polling()
 
     def stop(self, bot, update):
-        self.updater.idle()
+        self.updater.stop()
 
 
 if __name__ == "__main__":
