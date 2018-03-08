@@ -88,7 +88,8 @@ class RoBoto():
         self.options = []
 
     def start(self, bot, update):
-        bot.sendMessage(chat_id=update.message.chat_id, text="Let's &lt;b&gt;create&lt;/b&gt; a new poll. First, send me the question.", parse_mode='HTML')
+        message = bot.sendMessage(chat_id=update.message.chat_id, text="Let's &lt;b&gt;create&lt;/b&gt; a new poll. First, send me the question.", parse_mode='HTML')
+        print(message.id)
         self.set_start = True
         
     def echo(self, bot, update):
@@ -112,7 +113,7 @@ class RoBoto():
             self.set_options_text = False
                 
             options = [
-                Option(id=update.message.chat_id + hash(30)[:32], title=self.pollname) for option in self.options
+                Option(id=update.message.chat_id + int(hash(30)[:32]), title=self.pollname) for option in self.options
             ]
         
             poll = Poll(
