@@ -140,7 +140,6 @@ class RoBoto():
 
             bot.send_message(chat_id=update.message.chat_id, text=self.pollname,
                              reply_markup=InlineKeyboardMarkup(self.buttons))
-            self.options = []
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
 
