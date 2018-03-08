@@ -136,7 +136,7 @@ class RoBoto():
     def run(self):
         self.updater.start_polling()
     
-    def inline_handler(bot, update):
+    def inline_handler(self, bot, update):
         query = update.inline_query.query
 
         if query == '':
