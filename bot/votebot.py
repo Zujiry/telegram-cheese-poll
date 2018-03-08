@@ -83,9 +83,9 @@ def generate_message(question, parts, votes=None):
 def generate_button(query_id, part, vote):
     if vote == 0:
         return InlineKeyboardButton(
-                text=part, callback_data=str(query_id) + hash(part)[:32])
+            text=part, callback_data=str(query_id) + hash(part)[:32])
     return InlineKeyboardButton(
-                text="{} - {}".format(part, vote), callback_data=str(query_id) + hash(part)[:32])
+        text="{} - {}".format(part, vote), callback_data=str(query_id) + hash(part)[:32])
 
 def generate_buttons(query_id, parts, votes=None):
     if votes == None:
