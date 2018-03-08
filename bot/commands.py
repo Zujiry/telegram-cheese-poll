@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # os.environ["DB_URL"]
-engine = create_engine("DB-URL", echo=True)
+engine = create_engine('sqlite:////home/telegram-cheese-poll/bot.db', echo=True)
 
 db_session = scoped_session(
     sessionmaker(autocommit=False, autoflush=False, bind=engine))
