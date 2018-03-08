@@ -89,8 +89,8 @@ class RoBoto():
 
     def start(self, bot, update):
         message = bot.sendMessage(chat_id=update.message.chat_id, text="Let's &lt;b&gt;create&lt;/b&gt; a new poll. First, send me the question.", parse_mode='HTML')
-        print(message.id)
         self.set_start = True
+        print(message)
         
     def echo(self, bot, update):
         if self.set_options:
