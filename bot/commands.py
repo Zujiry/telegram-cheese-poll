@@ -92,6 +92,9 @@ class RoBoto():
         self.set_start = True
 
     def echo(self, bot, update):
+        if update.message['callback_query']:
+            print(update.message['callback_query']['data'])
+            print(update.message['callback_query']['from']['first_name'])
         if self.set_options:
             self.options.append(update.message.text)
             # bot.editMessageText(message_id=self.response['message_id'], chat_id=self.response['chat']['id'],
