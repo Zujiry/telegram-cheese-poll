@@ -1,3 +1,5 @@
+# coding=utf-16
+
 import argparse
 import hashlib
 import itertools
