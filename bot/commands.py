@@ -73,7 +73,7 @@ class RoBoto():
         unknown_handler = MessageHandler(Filters.command, self.unknown)
         echo_handler = MessageHandler(Filters.text, self.echo)
  
-        self.dispatcher.add_handler(InlineQueryHandler(inline_handler))        
+        self.dispatcher.add_handler(InlineQueryHandler(self.inline_handler))        
         self.dispatcher.add_handler(start_handler)
         self.dispatcher.add_handler(done_handler)
         self.dispatcher.add_handler(echo_handler)
