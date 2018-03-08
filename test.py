@@ -23,4 +23,5 @@
     'photo': [],
     'date': 1520516751,
     'group_chat_created': False,
-    'message_id': 318}
+    'message_id': 318
+}
