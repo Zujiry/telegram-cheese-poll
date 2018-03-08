@@ -113,7 +113,7 @@ class RoBoto():
             self.set_options_text = False
                 
             options = [
-                Option(id=update.message.chat_id + int(hash(30)[:32]), title=self.pollname) for option in self.options
+                Option(id=str(update.message.chat_id) + str(hash(30)[:32]), title=self.pollname) for option in self.options
             ]
         
             poll = Poll(
