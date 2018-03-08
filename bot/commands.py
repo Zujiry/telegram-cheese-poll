@@ -1,3 +1,5 @@
+import os
+
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
@@ -13,8 +15,8 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-
-engine = create_engine(os.environ["DB_URL"], echo=True)
+# os.environ["DB_URL"]
+engine = create_engine("DB-URL", echo=True)
 
 db_session = scoped_session(
     sessionmaker(autocommit=False, autoflush=False, bind=engine))
