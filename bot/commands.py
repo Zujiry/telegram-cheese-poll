@@ -129,9 +129,9 @@ class RoBoto():
             db_session.commit()
             '''
             bot.send_message(chat_id=update.message.chat_id, text=str("Created your poll!"))
-            buttons = []
+            self.buttons = []
             for option in self.options:
-                buttons.append([
+                self.buttons.append([
                     InlineKeyboardButton(text=option,
                                          callback_data=option),
                     InlineKeyboardButton(text='Nein',
@@ -139,7 +139,7 @@ class RoBoto():
                 ])
 
             bot.send_message(chat_id=update.message.chat_id, text=self.pollname,
-                             reply_markup=InlineKeyboardMarkup(buttons))
+                             reply_markup=InlineKeyboardMarkup(self.buttons))
             self.options = []
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
@@ -155,12 +155,11 @@ class RoBoto():
 
     def button_handler(self, bot, update):
         query = update.callback_query
-        text = self.pollname + '\n' + '\n'.join(
-            [x + str(1) for x in self.options if x is query['callback_query']['data']])
-
+        text = self.pollname + '\n' + '\n'.join(self.options)
         bot.editMessageText(message_id=query['message']['message_id'],
                             chat_id=query['message']['chat']['id'],
-                            text=text)
+                            text=text,
+                            reply_markup=InlineKeyboardMarkup(self.buttons))
         # update_message(bot, query.data, query.inline_message_id)
         query.answer()
 
