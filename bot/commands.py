@@ -112,7 +112,6 @@ class RoBoto():
 
     def done(self, bot, update):
         if self.set_start and self.set_options and self.set_options_text:
-            bot.send_message(chat_id=update.message.chat_id, text="Creating your poll!")
             self.set_options = False
             self.set_start = False
             self.set_options_text = False
@@ -130,7 +129,7 @@ class RoBoto():
             )
             db_session.add(poll)
             db_session.commit()
-            bot.send_message(chat_id=update.message.chat_id, text=str("Poll saved!"))
+            bot.send_message(chat_id=update.message.chat_id, text=str("Created your poll!"))
             self.options = []
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
