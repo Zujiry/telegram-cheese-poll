@@ -72,16 +72,12 @@ class RoBoto():
         self.dispatcher = self.updater.dispatcher
 
         ### Handler
-        start_handler = CommandHandler('start', self.start)
-        done_handler = CommandHandler('done', self.done)
-        unknown_handler = MessageHandler(Filters.command, self.unknown)
-        echo_handler = MessageHandler(Filters.text, self.echo)
-
-        self.dispatcher.add_handler(start_handler)
-        self.dispatcher.add_handler(done_handler)
-        self.dispatcher.add_handler(echo_handler)
+        self.dispatcher.add_handler(CommandHandler('start', self.start))
+        self.dispatcher.add_handler(CommandHandler('done', self.done))
+        self.dispatcher.add_handler(CommandHandler('stop', self.stop))
+        self.dispatcher.add_handler(MessageHandler(Filters.text, self.echo))
         # Must be added last
-        self.dispatcher.add_handler(unknown_handler)
+        self.dispatcher.add_handler(MessageHandler(Filters.command, self.unknown))
 
         ### Variables
         self.pollname = ""
@@ -91,10 +87,8 @@ class RoBoto():
         self.options = []
 
     def start(self, bot, update):
-        bot.sendMessage(chat_id=update.message.chat_id,
-                        text="Let's create a new poll. First, send me the question.",
-                        parse_mode='HTML')
-
+        message = "Let's create a new poll. First, send me the question."
+        bot.sendMessage(chat_id=update.message.chat_id, text=message)
         self.set_start = True
 
     def echo(self, bot, update):
