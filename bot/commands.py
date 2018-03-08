@@ -112,6 +112,7 @@ class RoBoto():
             self.set_start = False
             self.set_options_text = False
 
+            '''
             options = [
                 Option(id=str(update.message.chat_id) + str(hash(30)[:32]), title=self.pollname) for option in
                 self.options
@@ -125,14 +126,21 @@ class RoBoto():
             )
             db_session.add(poll)
             db_session.commit()
+            '''
             bot.send_message(chat_id=update.message.chat_id, text=str("Created your poll!"))
-            bt1 = InlineKeyboardButton(text='ja',
+            # buttons = []
+            # for option in self.options:
+            bt1 = InlineKeyboardButton(text='ja das ist ganz lang',
                                        url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
-            bt2 = InlineKeyboardButton(text='lol nein',
+            bt2 = InlineKeyboardButton(text='lol',
+                                       url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
+            bt3 = InlineKeyboardButton(text='lol',
+                                       url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
+            bt4 = InlineKeyboardButton(text='lol',
                                        url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
 
             bot.send_message(chat_id=update.message.chat_id, text=self.pollname,
-                             reply_markup=InlineKeyboardMarkup([[bt1], [bt2]]))
+                             reply_markup=InlineKeyboardMarkup([[bt1, bt3], [bt2, bt4]]))
             self.options = []
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
