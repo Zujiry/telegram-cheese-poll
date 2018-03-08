@@ -100,7 +100,7 @@ class RoBoto():
         elif self.set_options_text:
             pass
         elif self.set_start:
-            self.response = bot.send_message(chat_id=update.message.chat_id, text="All the options please")
+            bot.send_message(chat_id=update.message.chat_id, text="All the options please")
             self.pollname = update.message.text
             self.set_options_text = True
             self.set_options = True
@@ -155,7 +155,12 @@ class RoBoto():
 
     def button_handler(self, bot, update):
         query = update.callback_query
-        print(query)
+        text = self.pollname + '\n' + '\n'.join(
+            [x + str(1) for x in self.options if x is query['callback_query']['data']])
+
+        bot.editMessageText(message_id=self.response['message_id'],
+                            chat_id=query['callback_query']['message']['message_id'],
+                            text=text)
         # update_message(bot, query.data, query.inline_message_id)
         query.answer()
 
