@@ -112,7 +112,7 @@ class RoBoto():
             self.set_start = False
             self.set_options_text = False
             
-            query_id = update.chosen_inline_result.result_id
+            query_id = update.inline_query.id
             
             options = [
                 Option(id=query_id + hash(part)[:32], title=self.pollname) for option in self.options
