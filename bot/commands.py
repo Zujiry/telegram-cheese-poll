@@ -76,6 +76,7 @@ class RoBoto():
         self.dispatcher.add_handler(CommandHandler('done', self.done))
         self.dispatcher.add_handler(CommandHandler('stop', self.stop))
         self.dispatcher.add_handler(MessageHandler(Filters.text, self.echo))
+        self.dispatcher.add_handler(CallbackQueryHandler(self.button_handler))
         # Must be added last
         self.dispatcher.add_handler(MessageHandler(Filters.command, self.unknown))
 
@@ -92,9 +93,6 @@ class RoBoto():
         self.set_start = True
 
     def echo(self, bot, update):
-        if update.message['callback_query']:
-            print(update.message['callback_query']['data'])
-            print(update.message['callback_query']['from']['first_name'])
         if self.set_options:
             self.options.append(update.message.text)
             # bot.editMessageText(message_id=self.response['message_id'], chat_id=self.response['chat']['id'],
@@ -154,6 +152,12 @@ class RoBoto():
 
     def stop(self, bot, update):
         self.updater.stop()
+
+    def button_handler(self, bot, update):
+        query = update.callback_query
+        print(query)
+        # update_message(bot, query.data, query.inline_message_id)
+        query.answer()
 
 
 if __name__ == "__main__":
