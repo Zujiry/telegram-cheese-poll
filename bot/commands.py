@@ -4,6 +4,8 @@ import os
 import hashlib
 import shlex
 
+from telegram import KeyboardButton, ReplyKeyboardMarkup
+
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
@@ -89,11 +91,14 @@ class RoBoto():
         self.options = []
 
     def start(self, bot, update):
+        lol = KeyboardButton(text='lol')
+        ReplyKeyboardMarkup([lol])
         message = bot.sendMessage(chat_id=update.message.chat_id,
                                   text="Let's create a new poll. First, send me the question.",
-                                  parse_mode='HTML')
+                                  parse_mode='HTML',
+                                  reply_markup=ReplyKeyboardMarkup([lol]))
+
         self.set_start = True
-        print(message)
 
     def echo(self, bot, update):
         if self.set_options:
