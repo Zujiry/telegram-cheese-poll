@@ -28,6 +28,7 @@ class RoBoto():
         self.dispatcher.add_handler(unknown_handler)
         
         ### Variables
+        self.pollname = ""
         self.set_start = False
         self.set_options = False
         self.set_options_text = False
@@ -44,6 +45,7 @@ class RoBoto():
             pass
         elif self.set_start:
             bot.send_message(chat_id=update.message.chat_id, text='All the options please')
+            self.pollname = update.message.text
             self.set_options_text = True
             self.set_options = True
         else:
@@ -55,6 +57,7 @@ class RoBoto():
             self.set_options = False
             self.set_start = False
             self.set_options_text = False
+            bot.send_message(chat_id=update.message.chat_id, text=str(self.options) + ' ' + self.pollname)
     
     def unknown(self, bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
