@@ -27,6 +27,7 @@ class RoBoto():
         
         ### Variables
         self.set_start = False
+        self.set_options = False
         self.options = []
 
     def start(self, bot, update):
@@ -38,11 +39,13 @@ class RoBoto():
             self.options.append(update.message.text)
         if self.set_start:
             bot.send_message(chat_id=update.message.chat_id, text='All the options please')
+            self.set_options = True
         else:
             bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
     
     def done(self, bot, update):
         bot.send_message(chat_id=update.message.chat_id, text="Okay done")
+        self.set_options = False
         self.set_start = False
     
     def unknown(self, bot, update):
