@@ -86,8 +86,8 @@ class RoBoto():
         self.options = []
 
     def start(self, bot, update):
-        bot.sendMessage(chat_id=update.message.chat_id, text="Let's &lt;b&gt;create&lt;/b&gt; a new poll. First, send me the question.", parse_mode=True)
-        bot.sendMessage(chat_id=update.message.chat_id, text="Let's <b>create</b> a new poll. First, send me the question.", parse_mode=True)
+        bot.sendMessage(chat_id=update.message.chat_id, text="Let's &lt;b&gt;create&lt;/b&gt; a new poll. First, send me the question.", parse_mode='HTML')
+        bot.sendMessage(chat_id=update.message.chat_id, text="Let's <b>create</b> a new poll. First, send me the question.", parse_mode='HTML')
         self.set_start = True
         
     def echo(self, bot, update):
