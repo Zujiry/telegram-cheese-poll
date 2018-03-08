@@ -91,12 +91,9 @@ class RoBoto():
         self.options = []
 
     def start(self, bot, update):
-        bt1 = InlineKeyboardButton(text='lol', url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
-        bt2 = InlineKeyboardButton(text='lol nein', url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
         message = bot.sendMessage(chat_id=update.message.chat_id,
                                   text="Let's create a new poll. First, send me the question.",
-                                  parse_mode='HTML',
-                                  reply_markup=InlineKeyboardMarkup([[bt1], [bt2]]))
+                                  parse_mode='HTML')
 
         self.set_start = True
 
@@ -135,6 +132,10 @@ class RoBoto():
             db_session.add(poll)
             db_session.commit()
             bot.send_message(chat_id=update.message.chat_id, text=str("Created your poll!"))
+            bt1 = InlineKeyboardButton(text='ja', url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
+            bt2 = InlineKeyboardButton(text='lol nein', url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
+            
+            bot.send_message(chat_id=update.message.chat_id, text=self.pollname, reply_markup=InlineKeyboardMarkup([[bt1], [bt2]])
             self.options = []
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
@@ -144,6 +145,9 @@ class RoBoto():
 
     def run(self):
         self.updater.start_polling()
+    
+    def stop(self):
+        self.updater.stop()
 
 
 if __name__ == "__main__":
