@@ -91,12 +91,12 @@ class RoBoto():
         self.options = []
 
     def start(self, bot, update):
-        lol = KeyboardButton(text='lol')
-        ReplyKeyboardMarkup([lol])
+        lol = InlineKeyboardButton(text='lol')
+        lol_nein = InlineKeyboardButton(text='lol nein')
         message = bot.sendMessage(chat_id=update.message.chat_id,
                                   text="Let's create a new poll. First, send me the question.",
                                   parse_mode='HTML',
-                                  reply_markup=ReplyKeyboardMarkup([lol]))
+                                  reply_markup=InlineKeyboardMarkup([[lol], [lol_nein]]))
 
         self.set_start = True
 
