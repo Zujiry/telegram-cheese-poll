@@ -42,7 +42,7 @@ class RoBoto():
             self.options.append(update.message.text)
         elif self.set_options_text:
             pass
-        if self.set_start:
+        elif self.set_start:
             bot.send_message(chat_id=update.message.chat_id, text='All the options please')
             self.set_options_text = True
             self.set_options = True
