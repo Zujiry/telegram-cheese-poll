@@ -128,19 +128,17 @@ class RoBoto():
             db_session.commit()
             '''
             bot.send_message(chat_id=update.message.chat_id, text=str("Created your poll!"))
-            # buttons = []
-            # for option in self.options:
-            bt1 = InlineKeyboardButton(text='ja das ist ganz lang',
-                                       url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
-            bt2 = InlineKeyboardButton(text='lol',
-                                       url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
-            bt3 = InlineKeyboardButton(text='lol',
-                                       url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
-            bt4 = InlineKeyboardButton(text='lol',
-                                       url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
+            buttons = []
+            for option in self.options:
+                buttons.append([
+                    InlineKeyboardButton(text=option,
+                                         url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl"),
+                    InlineKeyboardButton(text='Nein',
+                                         url="https://www.google.de/?gfe_rd=cr&dcr=0&ei=e0mhWvGtD4PZ8AfGxYmIDA&gws_rd=ssl")
+                ])
 
             bot.send_message(chat_id=update.message.chat_id, text=self.pollname,
-                             reply_markup=InlineKeyboardMarkup([[bt1, bt3], [bt2, bt4]]))
+                             reply_markup=InlineKeyboardMarkup(buttons))
             self.options = []
         else:
             bot.send_message(chat_id=update.message.chat_id, text="You first have to create a poll via typing /start")
@@ -151,7 +149,7 @@ class RoBoto():
     def run(self):
         self.updater.start_polling()
 
-    def stop(self):
+    def stop(self, bot, update):
         self.updater.stop()
 
 
