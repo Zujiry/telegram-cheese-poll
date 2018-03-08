@@ -10,7 +10,6 @@ logging.basicConfig(level=logging.DEBUG,
 
 ### Functions
 class RoBoto():
-    pollname = ""
 
     def __init__(self):
         self.updater = Updater(token='325958539:AAF4OdXPaS_TL7JR3fVtDrzh_Kxx34Kx54w')
@@ -25,13 +24,17 @@ class RoBoto():
         self.dispatcher.add_handler(echo_handler)
         # Must be added last
         self.dispatcher.add_handler(unknown_handler)
+        
+        ### Variables
+        self.set_start = False
 
     def start(self, bot, update):
         bot.sendMessage(chat_id=update.message.chat_id, text="Let's create a new poll. First, send me the question.")
-
+        self.set_start = True
+        
     def echo(self, bot, update):
-        if self.pollname:
-            bot.send_message(chat_id=update.message.chat_id, text=self.pollname.text)
+        if self.set_start:
+            bot.send_message(chat_id=update.message.chat_id, text='All the options please')
         else:
             bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
