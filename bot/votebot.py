@@ -199,6 +199,5 @@ if __name__ == "__main__":
     dispatcher.add_handler(InlineQueryHandler(inline_handler))
     dispatcher.add_handler(CallbackQueryHandler(button_handler))
     dispatcher.add_handler(ChosenInlineResultHandler(chosen_result_handler))
-    dispatcher.add_error_handler(
-        lambda bot, update, error: logging.error(error))
+    dispatcher.add_error_handler(lambda bot, update, error: logging.error(error))
     updater.start_polling()
